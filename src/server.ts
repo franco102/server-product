@@ -27,12 +27,13 @@ const server = express()
 
 server.use(express.json())
 //Habilitar cords
+const allowedOrigins = [process.env.BACKEND_URL, process.env.FRONTEND_URL];
 const corsOptions:CorsOptions={
     origin:function(origin,callback){
-        if(origin===process.env.FRONTEND_URL){
-            callback(null,true)
-        }else{
-            callback(new Error('no tiene acceso'))
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('No tiene acceso'));
         }
     }
 }
